@@ -27,13 +27,17 @@ class Game:
         background_image = pygame.image.load(image_path)
         self.image = pygame.transform.scale(background_image, (width, height))
 
-    def run_game_loop(self):
+    def run_game_loop(self, level_speed):
         is_game_over = False
         did_win = False
         direction = 0
         player_character = PlayerCharacter("player.png", 375, 700, 50, 50)
         enemy_0 = EnemyCharacter('enemy.png', 20, 400, 50, 50)
-        enemy_1 = EnemyCharacter('enemy.png', 600, 600, 50, 50)
+        enemy_0.SPEED *= level_speed
+        enemy_1 = EnemyCharacter('enemy.png', 400, 600, 50, 50)
+        enemy_1.SPEED *= level_speed
+        enemy_2 = EnemyCharacter('enemy.png', self.width-40, 200, 50, 50)
+        enemy_2.SPEED *= level_speed
         treasure = GameObject('treasure.png', 375, 75 , 50, 50)
 
         # Game Loop
@@ -67,6 +71,9 @@ class Game:
             enemy_0.move(self.width)
             enemy_0.draw(self.game_screen)
 
+           
+
+            # Win/Lose Conditions
             if player_character.detect_collision(enemy_0):
                 is_game_over = True
                 did_win = False
@@ -86,14 +93,15 @@ class Game:
                 
             enemy_1.move(self.width)
             enemy_1.draw(self.game_screen)
-            
+            enemy_2.move(self.width)
+            enemy_2.draw(self.game_screen)
        
             # Update all graphics         
             pygame.display.update()
             clock.tick(self.TICK_RATE)
 
         if did_win:
-            self.run_game_loop()
+            self.run_game_loop(level_speed + 0.5)
         else:
             return
 
@@ -117,7 +125,7 @@ class GameObject:
 
 class PlayerCharacter(GameObject):
 
-    SPEED = 10
+    SPEED = 15
     
     def __init__ (self,image_path, x, y, width, height):
         super().__init__(image_path, x, y, width, height)
@@ -144,6 +152,7 @@ class PlayerCharacter(GameObject):
         
         return True
 
+
 class EnemyCharacter(GameObject):
 
     SPEED = 20
@@ -163,7 +172,7 @@ class EnemyCharacter(GameObject):
 pygame.init()
 
 new_game = Game("background.png", SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
-new_game.run_game_loop()
+new_game.run_game_loop(1)
 
 player_image = pygame.image.load("player.png")
 player_image = pygame.transform.scale(player_image, (50,50))
