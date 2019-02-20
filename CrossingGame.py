@@ -71,7 +71,13 @@ class Game:
             enemy_0.move(self.width)
             enemy_0.draw(self.game_screen)
 
-           
+            if level_speed > 2:
+                enemy_1.move(self.width)
+                enemy_1.draw(self.game_screen)
+
+            if level_speed > 4:
+                enemy_2.move(self.width)
+                enemy_2.draw(self.game_screen)
 
             # Win/Lose Conditions
             if player_character.detect_collision(enemy_0):
@@ -90,11 +96,7 @@ class Game:
                 pygame.display.update()
                 clock.tick(2)
                 break
-                
-            enemy_1.move(self.width)
-            enemy_1.draw(self.game_screen)
-            enemy_2.move(self.width)
-            enemy_2.draw(self.game_screen)
+  
        
             # Update all graphics         
             pygame.display.update()
@@ -125,7 +127,7 @@ class GameObject:
 
 class PlayerCharacter(GameObject):
 
-    SPEED = 15
+    SPEED = 20
     
     def __init__ (self,image_path, x, y, width, height):
         super().__init__(image_path, x, y, width, height)
@@ -155,7 +157,7 @@ class PlayerCharacter(GameObject):
 
 class EnemyCharacter(GameObject):
 
-    SPEED = 20
+    SPEED = 15
 
     def __init__(self, image_path, x, y, width, height):
         super().__init__(image_path, x, y, width, height)
