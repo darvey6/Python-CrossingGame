@@ -7,14 +7,15 @@ SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Crossing Game"
 WHITE_COLOR = (255, 255, 255)
 BLACK_COLOR = (0, 0, 0)
-
+pygame.font.init()
+font = pygame.font.SysFont("comicsans", 75)
 
 
 class Game:
     
     TICK_RATE = 60
 
-    def __init__(self, title, width, height):
+    def __init__(self, image_path, title, width, height):
         self.title = title
         self.width = width
         self.height = height
@@ -23,8 +24,12 @@ class Game:
         self.game_screen.fill(WHITE_COLOR)
         pygame.display.set_caption(title)
 
+        background_image = pygame.image.load(image_path)
+        self.image = pygame.transform.scale(background_image, (width, height))
+
     def run_game_loop(self):
         is_game_over = False
+        did_win = False
         direction = 0
         player_character = PlayerCharacter("player.png", 375, 700, 50, 50)
         enemy_0 = EnemyCharacter('enemy.png', 20, 400, 50, 50)
@@ -52,6 +57,7 @@ class Game:
                 print(event)
 
             self.game_screen.fill(WHITE_COLOR)
+            self.game_screen.blit(self.image, (0, 0))
 
             treasure.draw(self.game_screen)
             
@@ -63,8 +69,20 @@ class Game:
 
             if player_character.detect_collision(enemy_0):
                 is_game_over = True
+                did_win = False
+                text = font.render("You LOSED", True, BLACK_COLOR)
+                self.game_screen.blit(text, (300, 350))
+                pygame.display.update()
+                clock.tick(2)
+                break
             elif player_character.detect_collision(treasure):
                 is_game_over= True
+                did_win = True
+                text = font.render("You wonnered", True, BLACK_COLOR)
+                self.game_screen.blit(text, (300, 350))
+                pygame.display.update()
+                clock.tick(2)
+                break
                 
             enemy_1.move(self.width)
             enemy_1.draw(self.game_screen)
@@ -73,6 +91,11 @@ class Game:
             # Update all graphics         
             pygame.display.update()
             clock.tick(self.TICK_RATE)
+
+        if did_win:
+            self.run_game_loop()
+        else:
+            return
 
 
 class GameObject:
@@ -123,7 +146,7 @@ class PlayerCharacter(GameObject):
 
 class EnemyCharacter(GameObject):
 
-    SPEED = 15
+    SPEED = 20
 
     def __init__(self, image_path, x, y, width, height):
         super().__init__(image_path, x, y, width, height)
@@ -139,7 +162,7 @@ class EnemyCharacter(GameObject):
         
 pygame.init()
 
-new_game = Game(SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
+new_game = Game("background.png", SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
 new_game.run_game_loop()
 
 player_image = pygame.image.load("player.png")
