@@ -71,19 +71,19 @@ class Game:
             enemy_0.move(self.width)
             enemy_0.draw(self.game_screen)
 
-            if level_speed > 2:
+            if level_speed > 1:
                 enemy_1.move(self.width)
                 enemy_1.draw(self.game_screen)
 
-            if level_speed > 4:
+            if level_speed > 2:
                 enemy_2.move(self.width)
                 enemy_2.draw(self.game_screen)
 
             # Win/Lose Conditions
-            if player_character.detect_collision(enemy_0):
+            if player_character.detect_collision(enemy_0 or enemy_1 or enemy_2):
                 is_game_over = True
                 did_win = False
-                text = font.render("You LOSED", True, BLACK_COLOR)
+                text = font.render("You LOSE", True, BLACK_COLOR)
                 self.game_screen.blit(text, (300, 350))
                 pygame.display.update()
                 clock.tick(2)
@@ -91,7 +91,7 @@ class Game:
             elif player_character.detect_collision(treasure):
                 is_game_over= True
                 did_win = True
-                text = font.render("You wonnered", True, BLACK_COLOR)
+                text = font.render("You won", True, BLACK_COLOR)
                 self.game_screen.blit(text, (300, 350))
                 pygame.display.update()
                 clock.tick(2)
