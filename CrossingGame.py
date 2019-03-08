@@ -71,13 +71,13 @@ class Game:
             enemy_0.move(self.width)
             enemy_0.draw(self.game_screen)
 
-            if level_speed > 1:
-                enemy_1.move(self.width)
-                enemy_1.draw(self.game_screen)
+            #if level_speed > 1:
+            enemy_1.move(self.width)
+            enemy_1.draw(self.game_screen)
 
-            if level_speed > 2:
-                enemy_2.move(self.width)
-                enemy_2.draw(self.game_screen)
+           # if level_speed > 2:
+            enemy_2.move(self.width)
+            enemy_2.draw(self.game_screen)
 
             # Win/Lose Conditions
             if player_character.detect_collision(enemy_0 or enemy_1 or enemy_2):
