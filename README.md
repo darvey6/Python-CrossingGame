@@ -1,5 +1,5 @@
 # CrossingGame
-Made using Python and Pygame.<br/>
+Made using Python and Pygame library .<br/>
 -object oriented game,  moveable enemies/character as subclass and nonmoveable character (treasure) as superclass <br/>
 -boundary checking, for enemies <br/>
 -collision checking for character <br/>
