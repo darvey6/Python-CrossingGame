@@ -80,7 +80,7 @@ class Game:
             enemy_2.draw(self.game_screen)
 
             # Win/Lose Conditions
-            if player_character.detect_collision(enemy_0 or enemy_1 or enemy_2):
+            if player_character.detect_collision(enemy_0) or player_character.detect_collision(enemy_1) or player_character.detect_collision(enemy_2):
                 is_game_over = True
                 did_win = False
                 text = font.render("You LOSE", True, BLACK_COLOR)
